@@ -4,6 +4,7 @@ class TopicsController < ApplicationController
   end
   
   def new
+    @topic = Topic.new
   end
   
   def create
@@ -20,6 +21,16 @@ class TopicsController < ApplicationController
   private
   def topic_params
     params.require(:topic).permit(:image, :description)
+  end
+  
+  helper_method :current_user, :logged_in?
+  
+  def current_user
+    @current_user ||= User.find_by(id: session[:user_id])
+  end
+
+  def logged_in?
+    !current_user.nil?
   end
   
 end
